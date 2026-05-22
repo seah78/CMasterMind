@@ -10,6 +10,7 @@
 #define MAX_ATTEMPTS 10
 #define INPUT_SIZE 64
 
+/* Cree un code secret aleatoire compose des chiffres autorises. */
 static void generate_secret(char secret[CODE_LENGTH + 1])
 {
     int i;
@@ -20,6 +21,7 @@ static void generate_secret(char secret[CODE_LENGTH + 1])
     secret[CODE_LENGTH] = '\0';
 }
 
+/* Vide les caracteres restants quand une ligne depasse le tampon de lecture. */
 static void discard_line_remainder(void)
 {
     int character;
@@ -29,6 +31,11 @@ static void discard_line_remainder(void)
     }
 }
 
+/*
+ * Lit et valide une proposition.
+ * Retourne 1 pour une proposition valide, 2 pour une saisie invalide,
+ * -1 quand le joueur quitte, et 0 quand l'entree se termine.
+ */
 static int read_guess(char guess[CODE_LENGTH + 1])
 {
     char input[INPUT_SIZE];
@@ -67,6 +74,10 @@ static int read_guess(char guess[CODE_LENGTH + 1])
     return 1;
 }
 
+/*
+ * Calcule les pions bien places et mal places.
+ * Les chiffres deja bien places ne sont pas recomptes dans les doublons.
+ */
 static void score_guess(const char secret[CODE_LENGTH + 1],
                         const char guess[CODE_LENGTH + 1],
                         int *well_placed,
@@ -95,6 +106,7 @@ static void score_guess(const char secret[CODE_LENGTH + 1],
     }
 }
 
+/* Affiche les regles visibles au debut de chaque partie. */
 static void print_rules(void)
 {
     printf("Mastermind\n");
@@ -106,6 +118,7 @@ static void print_rules(void)
     printf("Tape q pour quitter.\n\n");
 }
 
+/* Lance la partie, gere les tours et affiche le resultat final. */
 int main(void)
 {
     char secret[CODE_LENGTH + 1];
